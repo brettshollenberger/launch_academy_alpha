@@ -1,0 +1,23 @@
+SUBSCRIBER EXAMPLE
+----------------------------------
+As a subscriber,
+I want to see all past articles by issue
+So I can throw away my paper copies of the journal.
+
+NON-SUBSCRIBER EXAMPLE
+----------------------------------
+As a non-subscriber,
+I want to see abstracts for any article that's been on the site by issue
+So I can decide whether or not I'd want to subscribe.
+
+ADMIN EXAMPLE
+----------------------------------
+As the site admin,
+I want to have separate spaces to see both sign-up rates and revenue, and popular authors and articles,
+So that I know which rates maxmimize our profits, and which authors to commission again.
+
+AUTHOR EXAMPLE
+----------------------------------
+As an author,
+I want to see statistics on how many people viewed my articles by week
+So that I can tell which topics are most popular to write about.
