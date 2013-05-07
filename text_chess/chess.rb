@@ -7,34 +7,28 @@ f = ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']
 g = ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p']
 h = ['x', 'x', 'x', 'x', 'x', 'x', 'x', 'x']
 
+$columns = {
+  a: '0',
+  b: '1',
+  c: '2',
+  d: '3',
+  e: '4',
+  f: '5',
+  g: '6',
+  h: '7'
+}
+
 board = [a, b, c, d, e, f, g, h]
 
 def move_white(board, from_square, to_square)
   def column_conversion(square)
-    if square[0] == 'a'
-      square[0] = "0"
-    elsif square[0] == 'b'
-      square[0] = "1"
-    elsif square[0] == 'c'
-      square[0] = "2"
-    elsif square[0] == 'd'
-      square[0] = "3"
-    elsif square[0] == 'e'
-      square[0] = "4"
-    elsif square[0] == 'f'
-      square[0] = "5"
-    elsif square[0] == 'g'
-      square[0] = "6"
-    elsif square[0] == 'h'
-      square[0] = "7"
-    else
-      puts 'Entry not valid'
-    end
+    square[0] = $columns[square[0].to_sym]
   end
+
   column_conversion(from_square)
   column_conversion(to_square)
 
-  if board[from_square[0].to_i][from_square[1].to_i] != 'x'
+  if board[from_square[0].to_i][from_square[1].to_i] == 'p'
     board[from_square[0].to_i][from_square[1].to_i] = 'x'
     board[to_square[0].to_i][to_square[1].to_i] = 'p'
     board.each { |row| print "#{row}\n" }
