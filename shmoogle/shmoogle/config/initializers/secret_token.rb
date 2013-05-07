@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-Shmoogle::Application.config.secret_token = '08f5d798151b2fe6d195dec4c3ab9ac55d0ac35de3c3e8c9e187ad0b2276056df07a69984ed6c459defd8f57985eb00662671e650c7bacc9418620186b0fb9fc'
+Shmoogle::Application.config.secret_token = 'e7d14f157eabfe9cba95e13013a37a90f7972cdb411c97e56b77abd997b5cba66801da637b32bf42163221c7c835bda14da1d193691a9bdf086ade2bbe0a6757'
