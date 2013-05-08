@@ -1,2 +1,86 @@
-<h1>Welcome#index</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Load external stylesheets -->
+<%= stylesheet_link_tag "application", :media => "all" %>
+<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+
+<!-- Load external Javascript -->
+<%= javascript_include_tag "application" %>
+
+<!-- Protect against security vulnerabilities -->
+<%= csrf_meta_tags %>
+
+<%= yield %>
+</head>
+<body>
+<nav>
+  <ul>
+    <li>
+      <a href="#">Search</a>
+    </li>
+    <li>
+      <a href="#">Images</a>
+    </li>
+    <li>
+      <a href="#">Maps</a>
+    </li>
+    <li>
+      <a href="#">Play</a>
+    </li>
+    <li>
+      <a href="#">YouTube</a>
+    </li>
+    <li>
+      <a href="#">News</a>
+    </li>
+    <li>
+      <a href="#">Gmail</a>
+    </li>
+    <li>
+      <a href="#">Drive</a>
+    </li>
+    <li>
+      <a href="#">Calendar</a>
+    </li>
+  </ul>
+</nav>
+<div id="wrapper">
+<form>
+  <label for="search">Shmoogle</label>
+  <input type="search" name="search" id="search">
+  <input type="submit" value="Shmoogle It">
+</form>
+</div>
+<div id="filters">
+  <ul>
+    <li>
+      <a href="#">Search</a>
+    </li>
+    <li>
+      <a href="#">Images</a>
+    </li>
+    <li>
+      <a href="#">Maps</a>
+    </li>
+    <li>
+      <a href="#">Shopping</a>
+    </li>
+    <li>
+      <a href="#">Search Tools</a>
+    </li>
+  </ul>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+body {
+  margin:0px;
+  font-size: 16px;
+  font-family: 'Lato';
+}
+
+label {
+  font-family: 'Lobster', cursive;
+  font-size: 2rem;
+}
+
+nav li {
+  list-style: none;
+  display:inline-block;
+  padding:1rem;
+}
+
+a {
+  color: #EEEFF2;
+  text-decoration: none;
+  margin: 0em 1.5em 0em 0em;
+  font-family: 'Lato', sans-serif;
+}
+
+nav {
+  display:block;
+  background-color:#292B32;
+  margin-bottom: 8px;
+}
+
+#filters li {
+  list-style-type: none;
+  display:inline-block;
+  padding:.3rem;
+}
+
+#filters {
+  background-color:#EC6262;
+}
+
+#wrapper {
+  padding: 0px 0px 0px 35px;
+}
+
+.active a:hover {
+  color:#EC6262;
+}
+
