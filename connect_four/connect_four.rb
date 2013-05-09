@@ -1,3 +1,9 @@
+class Array
+  def same_values?
+    self.uniq.length == 1
+  end
+end
+
 class Game
   attr_accessor :p1, :p2, :board, :columns, :player_color
 
@@ -34,21 +40,81 @@ class Game
     }
   end
 
-  def drop_token(column, player)
-    (0..5).to_a.reverse.each do |num|
-      if board[num][columns[column.to_sym]] == 'x'
-        board[num][columns[column.to_sym]] = 'r' if player=self.p1; 'w'
-        break
+  def vertical_board
+    col0 = []
+    col1 = []
+    col2 = []
+    col3 = []
+    col4 = []
+    col5 = []
+    col6 = []
+    (0..6).each do |num|
+      board.each do |row|
+        if num == 0
+          col0.push(row[num])
+        elsif num == 1
+          col1.push(row[num])
+        elsif num == 2
+          col2.push(row[num])
+        elsif num == 3
+          col3.push(row[num])
+        elsif num == 4
+          col4.push(row[num])
+        elsif num == 5
+          col5.push(row[num])
+        else
+          col6.push(row[num])
+        end
       end
-      if num == 0
-        puts 'Column is full'
+    end
+    @vertical_board_a = [col0, col1, col2, col3, col4, col5, col6]
+  end
+
+  def check_win_horiz
+    board.each do |a|
+      y = a.each_slice(4)
+      y.each do |sub_a|
+        if sub_a.same_values? && sub_a[0] == 'r'
+          print 'Player 1 wins'
+          break
+        elsif sub_a.same_values? && sub_a[0] == 'w'
+          print 'Player 2 wins'
+        else
+          next
+        end
+      end
+    end
+  end
+
+  def check_win_vert
+    @vertical_board_a.each do |column|
+      x = column.each_slice(4)
+      x.each do |sub_a|
+        if sub_a.same_values? && sub_a[0] == 'r'
+          print 'Player 1 wins'
+          break
+        elsif sub_a.same_values? && sub_a[0] == 'w'
+          print 'Player 2 wins'
+          break
+        else
+          next
+        end
+      end
+    end
+  end
+
+  def drop_token(column, player)
+    if column =~ /[a-gA-G]/
+      (0..5).to_a.reverse.each do |num|
+        if board[num][columns[column.to_sym]] == 'x'
+          board[num][columns[column.to_sym]] = player_color[player]
+          break
+        end
+        if num == 0
+          puts 'Column is full'
+        end
       end
     end
   end
 
 end
-
-
-
-
-
