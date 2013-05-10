@@ -16,8 +16,8 @@ class Board
       [0, 0, 0, 0, 0, 0, 0]
     ]
 
-    @row_limit = @board[0].length - 1
-    @column_limit = @board.length - 1
+    @row_limit = @board.length - 1
+    @column_limit = @board[0].length - 1
   end
 
   def test_board(board)
@@ -28,71 +28,77 @@ class Board
   end
 
   def inside_board?(r, c)
-    if (r >= 0)
-      puts "#{r} >= 0"
-      if (c >= 0)
-        puts "#{c} >= 0"
-        if (r <= @row_limit)
-          puts "#{r} <= #{@row_limit} (row limit)"
-          if c <= @column_limit
-            puts "#{c} <= #{@column_limit}"
-            return true
-          end
-        end
-      end
-    end
-    return false
+    (r >= 0) && (c >= 0) && (r <= @row_limit) && (c <= @column_limit)
   end
 
   # Row array
-  # win_row = @board[r]
-
-  # # Column array
-  # win_column = []
-  # (0..5).each do |num|
-  #   win_column.push(board[num][c])
-  # end
-
-  # L-ot-R diagonal
-  def win_diags(r, c)
-    start_array_ltr = []
-    end_array_ltr = []
-    left_to_right_diag_win = []
-    right_to_left_diag_win = []
-    (0..5).each do |i|
-      if inside_board?(r+i, c+i)
-        start_array_ltr.push( @board[r-i][c-i] )
-        end_array_ltr.push( @board[r+i][c+i] )
-        left_to_right_diag_win << start_array_ltr.reverse
-        left_to_right_diag_win << end_array_ltr
-        print left_to_right_diag_win
-      else
-        puts "breaked!"
-        break
-      end
-    start_array_rtl = []
-    end_array_rtl = []
-    (0..5).each do |i|
-      if inside_board?(r+i, c+i)
-        start_array_rtl.push( @board[r+i][c-i] )
-        end_array_rtl.push( @board[r-i][c+i] )
-        right_to_left_diag_win << start_array_rtl.reverse
-        right_to_left_diag_win << end_array_rtl
-       else
-        puts "breaked!"
-        break
-      end
-    end
-    return left_to_right_diag_win, right_to_left_diag_win
+  def row(r, c)
+    @board[r]
   end
 
-  # diags1, diags2 = win_diags( )
-  # the_array_of_arrays = [
-  #   row_holder,
-  #   column_holder,
-  #   diags1,
-  #   diags2
-  # ]
+  # # Column array
+  def column(r, c)
+    col = []
+    (0..5).each do |num|
+      col.push( @board[num][c] )
+    end
+    col
+  end
+
+  def upper_left_diag(r, c)
+    u_l_diag = []
+    (0..5).each do |i|
+      u_l_diag.push( @board[r-i][c-i] ) if inside_board?(r-i, c-i)
+    end
+    u_l_diag.reverse!
+  end
+
+  def upper_right_diag(r, c)
+    u_r_diag = []
+    (0..5).each do |i|
+      u_r_diag.push( @board[r-i][c+i] ) if inside_board?(r-i, c+i)
+    end
+    u_r_diag.reverse!
+  end
+
+  def lower_right_diag(r, c)
+    l_r_diag = []
+    (0..5).each do |i|
+      l_r_diag.push( @board[r+i][c+i] ) if inside_board?(r+i, c+i)
+    end
+    l_r_diag
+  end
+
+  def lower_left_diag(r, c)
+    l_l_diag = []
+    (0..5).each do |i|
+      l_l_diag.push( @board[r+i][c-i] ) if inside_board?(r+i, c-i)
+    end
+    l_l_diag
+  end
+
+  def upper_left_to_lower_right(r, c)
+    x = upper_left_diag(r, c)
+    x.concat(lower_right_diag(r, c))
+    x.uniq!
+  end
+
+  def upper_right_to_lower_left(r, c)
+    x = upper_right_diag(r, c)
+    x.concat(lower_left_diag(r, c))
+    x.uniq!
+  end
+
+  def super_array(row, col)
+    super_array = [
+      row(row, col),
+      column(row, col),
+      upper_left_to_lower_right(row, col),
+      upper_right_to_lower_left(row, col)
+    ]
+  end
+
+  def wins?(super_array)
 
   # the_array_of_arrays.each do |array|
   #   i = 0
@@ -106,6 +112,7 @@ class Board
   #   end
   #   false
   # end
+  end
 
 end
 
@@ -119,9 +126,10 @@ test_board = [
 ]
 
 b = Board.new
+row=3
+col=3
 b.test_board(test_board)
-ltr, rtl = b.win_diags(2,2)
-print ltr
-puts
-print rtl
+print b.super_array(row, col)
+
+
 
