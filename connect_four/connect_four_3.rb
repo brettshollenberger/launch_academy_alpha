@@ -4,6 +4,10 @@ class WinConditionArrays
   end
 end
 
+class FullStackException < StandardError
+end
+
+
 class Board
 
   def initialize
@@ -24,21 +28,22 @@ class Board
     @board = board
   end
 
-  def drop_piece?(col, player)
+  def piece_dropped?(col, player)
     (0..5).to_a.reverse.each do |num|
       if @board[num][col] == 0
         @board[num][col] = player
-        return true
+        return num, col
       end
     end
-    return false
+    raise FullStackException.new
   end
 
   def view
     @board.each do |row|
-      print row
+      print "|#{row}|"
       puts
     end
+    puts "  1  2  3  4  5  6  7"
   end
 
   def inside_board?(r, c)
@@ -113,7 +118,6 @@ class Board
   end
 
   def wins?(row, col, color)
-    print super_array(row, col)
     (super_array(row, col)).each do |array|
       i = 0
       array.each do |element|
@@ -130,32 +134,85 @@ class Board
 end
 
 class Game
-  attr_accessor :p1, :p2
+  attr_accessor :player_turn, :b, :end_game, :current_player
 
-  def initialize
+  def initialize(p1, p2)
     @b = Board.new
+    @counter = 0
+    @player_turn = 1
+    @end_game = false
+    @p1 = p1
+    @p2 = p2
+    @current_player = p1
   end
 
-  def get_input
-    input = gets.chomp.to_i
-    @b.drop_piece?(input, 1)
-    @b.view
+  def reset_game
+    @b = Board.new
+    @counter = 0
+    @player_turn = 1
+    @end_game = false
   end
+
+  def turn(input)
+    begin
+      if @b.inside_board?(0, input.to_i-1)
+        row, col = @b.piece_dropped?(input.to_i-1, @player_turn)
+        @b.view
+        if @counter >= 41
+          puts "Stalemate!"
+          prompt_end
+        end
+        if @b.wins?(row, col, @player_turn)
+          puts "#{@current_player} wins!"
+          prompt_end
+        end
+        change_turn
+      else
+        puts "Please enter a column between 1 and 7"
+      end
+    rescue FullStackException
+      puts "That column is full! Try again"
+    end
+  end
+
+  def change_turn
+    @counter += 1
+    if @counter.even?
+      @player_turn = 1
+      @current_player = @p1
+    else
+      @player_turn = 2
+      @current_player = @p2
+    end
+  end
+
+  def prompt_end
+    puts "Thanks for playing. Would you like to play again? (y/n)"
+    if gets.chomp =~ /^[yY]/
+      reset_game
+    else
+      @end_game = true
+    end
+  end
+
 end
 
-test_board = [
-  [1,  2,  3,  4,  5,  6,  7],
-  [8, 9,  10,  11,  12,  13, 14],
-  [15, 16, 17, 18, 19, 20, 21],
-  [22,  23,  24,  25, 26, 27, 28],
-  [29,  30,  31,  32,  33,  34,  35],
-  [36,  37,  38,  39,  40,  41,  42]
-]
+puts "Welcome to Connect 4, please enter Player 1's name:"
+p1 = gets.chomp.capitalize
+puts "Awesome. Now enter Player 2's name:"
+p2 = gets.chomp.capitalize
 
-g = Game.new
+g = Game.new(p1, p2)
 
-while true
-  g.get_input
+g.b.view
+while !g.end_game
+  puts "#{g.current_player}, make your move. Enter 'q' at any time to exit"
+  input = gets.chomp
+  if input == 'q'
+    break
+  else
+    g.turn(input)
+  end
 end
 
 # row=2
