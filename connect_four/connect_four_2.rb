@@ -77,39 +77,6 @@ class Game
     @vertical_board_a = [col0, col1, col2, col3, col4, col5, col6]
   end
 
-  def check_win_horiz
-    board.each do |a|
-      y = a.each_slice(4)
-      y.each do |sub_a|
-        if sub_a.same_values? && sub_a[0] == 'r'
-          print 'Player 1 wins'
-          break
-        elsif sub_a.same_values? && sub_a[0] == 'w'
-          print 'Player 2 wins'
-        else
-          next
-        end
-      end
-    end
-  end
-
-  def check_win_vert
-    @vertical_board_a.each do |column|
-      x = column.each_slice(4)
-      x.each do |sub_a|
-        if sub_a.same_values? && sub_a[0] == 'r'
-          print 'Player 1 wins'
-          break
-        elsif sub_a.same_values? && sub_a[0] == 'w'
-          print 'Player 2 wins'
-          break
-        else
-          next
-        end
-      end
-    end
-  end
-
   def drop_token(column, player)
     if column =~ /[a-gA-G]/
       (0..5).to_a.reverse.each do |row|
@@ -126,6 +93,7 @@ class Game
 
 end
 
+###############################################
   def check_win(r, c, player)
     score = 1
     check_NW(r, c, player)
@@ -228,7 +196,7 @@ end
       puts "Player #{ player } wins N/S!"
       break
     else
-      puts "Player #{ player } has not made a winning move."
+      puts "Player #{ player } has not made a winning move.exi"
     end
   end
 

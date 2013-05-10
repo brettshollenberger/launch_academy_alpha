@@ -24,7 +24,21 @@ class Board
     @board = board
   end
 
-  def drop_piece
+  def drop_piece?(col, player)
+    (0..5).to_a.reverse.each do |num|
+      if @board[num][col] == 0
+        @board[num][col] = player
+        return true
+      end
+    end
+    return false
+  end
+
+  def view
+    @board.each do |row|
+      print row
+      puts
+    end
   end
 
   def inside_board?(r, c)
@@ -63,7 +77,7 @@ class Board
 
   def lower_right_diag(r, c)
     l_r_diag = []
-    (0..5).each do |i|
+    (1..5).each do |i|
       l_r_diag.push( @board[r+i][c+i] ) if inside_board?(r+i, c+i)
     end
     l_r_diag
@@ -71,7 +85,7 @@ class Board
 
   def lower_left_diag(r, c)
     l_l_diag = []
-    (0..5).each do |i|
+    (1..5).each do |i|
       l_l_diag.push( @board[r+i][c-i] ) if inside_board?(r+i, c-i)
     end
     l_l_diag
@@ -80,13 +94,13 @@ class Board
   def upper_left_to_lower_right(r, c)
     x = upper_left_diag(r, c)
     x.concat(lower_right_diag(r, c))
-    x.uniq!
+    x
   end
 
   def upper_right_to_lower_left(r, c)
     x = upper_right_diag(r, c)
     x.concat(lower_left_diag(r, c))
-    x.uniq!
+    x
   end
 
   def super_array(row, col)
@@ -98,22 +112,35 @@ class Board
     ]
   end
 
-  def wins?(super_array)
+  def wins?(row, col, color)
+    print super_array(row, col)
+    (super_array(row, col)).each do |array|
+      i = 0
+      array.each do |element|
+        if element == color
+          i += 1
+          if (i == 4) then return true end
+        else
+          i = 0
+        end
+      end
+    end
+    return false
+  end
+end
 
-  # the_array_of_arrays.each do |array|
-  #   i = 0
-  #   array.each do |element|
-  #     if element == color
-  #       i += 1
-  #       if (i == 4) then return true
-  #     else
-  #       i = 0
-  #     end
-  #   end
-  #   false
-  # end
+class Game
+  attr_accessor :p1, :p2
+
+  def initialize
+    @b = Board.new
   end
 
+  def get_input
+    input = gets.chomp.to_i
+    @b.drop_piece?(input, 1)
+    @b.view
+  end
 end
 
 test_board = [
@@ -125,11 +152,13 @@ test_board = [
   [36,  37,  38,  39,  40,  41,  42]
 ]
 
-b = Board.new
-row=3
-col=3
-b.test_board(test_board)
-print b.super_array(row, col)
+g = Game.new
 
+while true
+  g.get_input
+end
 
-
+# row=2
+# col=4
+# b.drop_piece?(1, 1)
+# b.view
