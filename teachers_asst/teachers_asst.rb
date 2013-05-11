@@ -49,10 +49,9 @@ class StudentList
     end
     puts self.students
   end
-  # @students.length.times do |student|
-  #   x = Grades.new(student)
-  #   grades.push(student)
-  # end
+
+  def min_score
+    self.students.each do |student|
 end
 
 students = {
